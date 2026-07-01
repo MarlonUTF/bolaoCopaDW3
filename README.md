@@ -58,7 +58,7 @@ O **Bolão da Copa 2026** é um sistema completo para criação e gerenciamento 
 
 
 
-O projeto foi desenvolvido como trabalho prático da disciplina de Arquitetura de Software, aplicando **Vertical Slice**, **Orientação a Objetos**, **Injeção de Dependência** e documentação com **Swagger/OpenAPI**.
+O projeto foi desenvolvido como trabalho prático da disciplina de **Desenvolvimento Web 3**, aplicando **Vertical Slice**, **Orientação a Objetos**, **Injeção de Dependência** e documentação com **Swagger/OpenAPI**.
 
 
 
