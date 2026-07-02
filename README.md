@@ -90,6 +90,8 @@ O projeto foi desenvolvido como trabalho prático da disciplina de **Desenvolvim
 
 - [📄 Licença](#-licença)
 
+- [🙏 Agradecimentos](#-agradecimentos)
+
 
 
 ---
@@ -655,6 +657,20 @@ node backend/scripts/importarCopa.js
 ---
 
 
+## 🙏 Agradecimentos
+
+Os dados utilizados para alimentar automaticamente o banco de dados (seleções, grupos, calendário e resultados da Copa do Mundo FIFA 2026) são obtidos por meio da API pública da ESPN.
+
+Este projeto utiliza a documentação mantida pela comunidade:
+
+- **ESPN Public API Documentation**
+  https://github.com/pseudo-r/Public-ESPN-API
+
+A documentação é um projeto independente e não possui afiliação oficial com a ESPN.
+
+Agradecimentos ao mantenedor da documentação por disponibilizar e manter este excelente trabalho para a comunidade open source.
+
+---
 
 ## 📄 Licença
 
