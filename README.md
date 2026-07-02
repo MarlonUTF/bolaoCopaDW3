@@ -1,13 +1,15 @@
 <p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="72" alt="Node.js" />
 
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastify/fastify-original.svg" width="80" alt="Fastify Logo"/>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.simpleicons.org/fastify/FFFFFF" />
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.simpleicons.org/fastify/000000" />
+    <img src="https://cdn.simpleicons.org/fastify/000000" width="60" alt="Fastify" />
+  </picture>
 
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" width="80" alt="PostgreSQL Logo"/>
-
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" width="80" alt="React Logo"/>
-
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="72" alt="PostgreSQL" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="72" alt="React" />
 </p>
-
 
 
 <h1 align="center">⚽ Bolão da Copa 2026</h1>
@@ -132,31 +134,18 @@ Todas as rotas seguem o padrão REST e estão documentadas com Swagger (disponí
 
 ## 🗄️ Banco de Dados
 
-
-
 O banco de dados foi modelado em **PostgreSQL** e é composto por **8 tabelas**:
 
-
-
-| Tabela               | Descrição                                                                 |
-
-|----------------------|---------------------------------------------------------------------------|
-
-| `grupos`             | Grupos da Copa (A a L)                                                    |
-
-| `paises`             | Seleções participantes, com bandeira e grupo                              |
-
-| `jogos`              | Partidas, com fase, estádio e chaveamento (origens para mata‑mata)        |
-
-| `resultados`         | Placar dos jogos encerrados (1:1 com jogos)                               |
-
-| `perfis`             | Jogadores do bolão                                                        |
-
-| `boloes`             | Bolões criados por um perfil                                              |
-
-| `participantes_bolao`| Relacionamento N:N entre bolões e perfis (com pontuação acumulada)        |
-
-| `palpites`           | Palpites de um perfil para um jogo dentro de um bolão                     |
+| Tabela                 | Descrição                                                               |
+|-------------------------|-------------------------------------------------------------------------|
+| `grupos`                | Grupos da Copa do Mundo (A a L).                                        |
+| `paises`                | Seleções participantes, com bandeira, sigla FIFA e grupo.               |
+| `jogos`                 | Partidas da competição, incluindo fase, estádio e chaveamento.          |
+| `resultados`            | Resultados oficiais dos jogos (relação 1:1 com `jogos`).                |
+| `perfis`                | Perfis dos participantes do bolão.                                      |
+| `boloes`                | Bolões criados por um perfil.                                           |
+| `participantes_bolao`   | Relação N:N entre perfis e bolões, com pontuação acumulada.             |
+| `palpites`              | Palpites registrados pelos participantes para cada jogo de um bolão.    |
 
 
 
@@ -318,27 +307,15 @@ Atualmente, a API pode ser testada diretamente via Swagger UI em `http://localho
 
 ## ⚡ Funcionalidades
 
-
-
-| Recurso               | Rotas                                    | Descrição                                                                                     |
-
-|-----------------------|------------------------------------------|-----------------------------------------------------------------------------------------------|
-
-| **Países**            | `GET /paises`, `GET /paises/:id`         | Lista todos os países com seus grupos (JOIN)                                                  |
-
-| **Perfis**            | `GET /perfis`, `POST /perfis`, `PATCH /perfis/:id`, `DELETE /perfis/:id` | CRUD completo de perfis de jogadores                                                          |
-
-| **Bolões**            | `GET /boloes`, `POST /boloes`, `PATCH /boloes/:id`, `DELETE /boloes/:id`, `POST /boloes/:id/participantes` | CRUD de bolões + adição de participantes                                                      |
-
-| **Jogos**             | `GET /jogos`, `GET /jogos/:id`, `POST /jogos`, `PATCH /jogos/:id`, `DELETE /jogos/:id` | CRUD completo de jogos (inclui chaveamento e resultados)                                     |
-
-| **Resultados**        | `GET /resultados`, `GET /resultados/:id`, `POST /resultados`, `PATCH /resultados/:id`, `DELETE /resultados/:id` | CRUD de resultados com propagação automática de vencedor                                       |
-
-| **Palpites**          | `GET /palpites`, `GET /palpites/:id`, `POST /palpites`, `PATCH /palpites/:id`, `DELETE /palpites/:id` | CRUD de palpites, validando participação no bolão e status do jogo                             |
-
-| **Documentação**      | `/docs`                                  | Swagger UI interativa                                                                         |
-
-
+| Recurso | Rotas | Descrição |
+|----------|--------|-----------|
+| **Países** | `GET /paises`<br>`GET /paises/:id` | Consulta das seleções participantes e seus respectivos grupos. |
+| **Perfis** | `GET /perfis`<br>`POST /perfis`<br>`PATCH /perfis/:id`<br>`DELETE /perfis/:id` | CRUD completo de perfis dos participantes. |
+| **Bolões** | `GET /boloes`<br>`POST /boloes`<br>`PATCH /boloes/:id`<br>`DELETE /boloes/:id`<br>`POST /boloes/:id/participantes` | Gerenciamento de bolões e inclusão de participantes. |
+| **Jogos** | `GET /jogos`<br>`GET /jogos/:id`<br>`POST /jogos`<br>`PATCH /jogos/:id`<br>`DELETE /jogos/:id` | CRUD de partidas, incluindo chaveamento e controle de resultados. |
+| **Resultados** | `GET /resultados`<br>`GET /resultados/:id`<br>`POST /resultados`<br>`PATCH /resultados/:id`<br>`DELETE /resultados/:id` | Gerenciamento dos resultados oficiais com propagação automática dos vencedores. |
+| **Palpites** | `GET /palpites`<br>`GET /palpites/:id`<br>`POST /palpites`<br>`PATCH /palpites/:id`<br>`DELETE /palpites/:id` | CRUD de palpites, validando participação no bolão e status da partida. |
+| **Documentação** | `/docs` | Interface interativa do Swagger/OpenAPI para teste e exploração da API. |
 
 ---
 
