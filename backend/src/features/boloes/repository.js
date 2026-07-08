@@ -65,6 +65,21 @@ class BolaoRepository {
     const resultado = await pool.query(query, [bolao_id, perfil_id])
     return resultado.rows[0] || null
   }
+<<<<<<< Updated upstream:backend/src/features/boloes/repository.js
+=======
+
+  async listarParticipantes(bolao_id) {
+    const query = `
+      SELECT pb.perfil_id, pe.nome, pb.pontuacao_total, pb.data_entrada
+      FROM participantes_bolao pb
+      JOIN perfis pe ON pb.perfil_id = pe.id
+      WHERE pb.bolao_id = $1
+      ORDER BY pb.pontuacao_total DESC
+    `
+    const resultado = await pool.query(query, [bolao_id])
+    return resultado.rows
+  }
+>>>>>>> Stashed changes:src/features/boloes/repository.js
 }
 
 export default BolaoRepository

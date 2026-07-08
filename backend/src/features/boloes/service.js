@@ -1,16 +1,16 @@
 import AppError from '../../shared/AppError.js'
-import pool from '../../database/pool.js'
 
 class BolaoService {
-  constructor(bolaoRepository) {
+  // Injeção de dependência: o Service recebe os Repositories via
+  // construtor. Nenhuma consulta SQL é feita aqui — só regra de negócio.
+  constructor(bolaoRepository, perfilRepository) {
     this.bolaoRepository = bolaoRepository
+    this.perfilRepository = perfilRepository
   }
 
   async _verificarPerfilExiste(perfil_id) {
-    const res = await pool.query('SELECT id FROM perfis WHERE id = $1', [perfil_id])
-    if (res.rows.length === 0) {
-      throw new AppError('Perfil não encontrado', 404)
-    }
+    const perfil = await this.perfilRepository.buscarPorId(perfil_id)
+    if (!perfil) throw new AppError('Perfil não encontrado', 404)
   }
 
   async listarTodos() {
@@ -25,8 +25,21 @@ class BolaoService {
 
   async criarBolao({ nome, descricao, criador_perfil_id }) {
     if (!nome || !criador_perfil_id) throw new AppError('Nome e criador são obrigatórios', 400)
+<<<<<<< Updated upstream:backend/src/features/boloes/service.js
     await this._verificarPerfilExiste(criador_perfil_id)
     return await this.bolaoRepository.criar(nome, descricao, criador_perfil_id)
+=======
+
+    // Regra de negócio 1: o criador precisa existir como perfil
+    await this._verificarPerfilExiste(criador_perfil_id)
+
+    const bolao = await this.bolaoRepository.criar(nome, descricao, criador_perfil_id)
+
+    // O criador já entra automaticamente como participante do próprio bolão
+    await this.bolaoRepository.adicionarParticipante(bolao.id, criador_perfil_id)
+
+    return bolao
+>>>>>>> Stashed changes:src/features/boloes/service.js
   }
 
   async atualizarBolao(id, { nome, descricao }) {
@@ -39,12 +52,26 @@ class BolaoService {
     const removido = await this.bolaoRepository.remover(id)
     if (!removido) throw new AppError('Bolão não encontrado', 404)
     return { mensagem: 'Bolão removido com sucesso' }
+<<<<<<< Updated upstream:backend/src/features/boloes/service.js
+=======
+  }
+
+  async listarParticipantes(bolao_id) {
+    await this.buscarPorId(bolao_id)
+    return await this.bolaoRepository.listarParticipantes(bolao_id)
+>>>>>>> Stashed changes:src/features/boloes/service.js
   }
 
   async adicionarParticipante(bolao_id, perfil_id) {
     await this._verificarPerfilExiste(perfil_id)
+<<<<<<< Updated upstream:backend/src/features/boloes/service.js
     const bolao = await this.buscarPorId(bolao_id)
 
+=======
+    await this.buscarPorId(bolao_id)
+
+    // Regra de negócio 2: um perfil não pode participar do mesmo bolão duas vezes
+>>>>>>> Stashed changes:src/features/boloes/service.js
     const existe = await this.bolaoRepository.participanteExiste(bolao_id, perfil_id)
     if (existe) throw new AppError('Perfil já é participante deste bolão', 400)
 

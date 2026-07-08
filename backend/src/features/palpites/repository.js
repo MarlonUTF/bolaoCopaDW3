@@ -2,7 +2,26 @@ import pool from '../../database/pool.js'
 
 class PalpiteRepository {
   async listarTodos() {
+<<<<<<< Updated upstream:backend/src/features/palpites/repository.js
     const query = 'SELECT * FROM palpites ORDER BY created_at DESC'
+=======
+    const query = `
+      SELECT
+        pa.*,
+        pe.nome AS perfil_nome,
+        b.nome AS bolao_nome,
+        j.numero_jogo, j.fase,
+        pc.nome AS pais_casa_nome,
+        pf.nome AS pais_fora_nome
+      FROM palpites pa
+      JOIN perfis pe ON pa.perfil_id = pe.id
+      JOIN boloes b ON pa.bolao_id = b.id
+      JOIN jogos j ON pa.jogo_id = j.id
+      LEFT JOIN paises pc ON j.pais_casa_id = pc.id
+      LEFT JOIN paises pf ON j.pais_fora_id = pf.id
+      ORDER BY pa.created_at DESC
+    `
+>>>>>>> Stashed changes:src/features/palpites/repository.js
     const resultado = await pool.query(query)
     return resultado.rows
   }

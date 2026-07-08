@@ -6,4 +6,8 @@ const errorSchema = {
   }
 }
 
+<<<<<<< Updated upstream:backend/src/shared/errorSchema.js
 export default errorSchema
+=======
+export default errorSchema
+>>>>>>> Stashed changes:src/shared/errorSchema.js

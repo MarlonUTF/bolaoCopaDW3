@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- Bolão da Copa 2026 — Script de criação do banco de dados
+-- ============================================================
+
+>>>>>>> Stashed changes:database.sql
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'fase_jogo') THEN
         CREATE TYPE fase_jogo AS ENUM (
@@ -12,6 +19,12 @@ DO $$ BEGIN
     END IF;
 END $$;
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- grupos (independente)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS grupos (
     id SERIAL,
     nome VARCHAR(1) NOT NULL,
@@ -19,6 +32,12 @@ CREATE TABLE IF NOT EXISTS grupos (
     CONSTRAINT uq_grupos_nome UNIQUE (nome)
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- paises (1:N com grupos)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS paises (
     id SERIAL,
     nome VARCHAR(100) NOT NULL,
@@ -32,6 +51,12 @@ CREATE TABLE IF NOT EXISTS paises (
         REFERENCES grupos(id) ON DELETE SET NULL
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- perfis (independente)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS perfis (
     id SERIAL,
     nome VARCHAR(100) NOT NULL,
@@ -39,6 +64,12 @@ CREATE TABLE IF NOT EXISTS perfis (
     CONSTRAINT pk_perfis PRIMARY KEY (id)
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- jogos (1:N com paises, auto-relacionamento para chaveamento)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS jogos (
     id SERIAL,
     numero_jogo INT NOT NULL,
@@ -78,6 +109,12 @@ CREATE TABLE IF NOT EXISTS jogos (
     CONSTRAINT ck_grupo_posicao_fora CHECK (origem_fora_grupo_posicao IN (1, 2, 3))
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- resultados (1:1 com jogos -> UNIQUE em jogo_id)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS resultados (
     id SERIAL,
     jogo_id INT NOT NULL,
@@ -93,6 +130,12 @@ CREATE TABLE IF NOT EXISTS resultados (
         REFERENCES paises(id) ON DELETE SET NULL
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- boloes (1:N com perfis, via criador)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS boloes (
     id SERIAL,
     nome VARCHAR(100) NOT NULL,
@@ -104,6 +147,12 @@ CREATE TABLE IF NOT EXISTS boloes (
         REFERENCES perfis(id) ON DELETE CASCADE
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- participantes_bolao (N:N entre perfis e boloes, tabela pivô)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS participantes_bolao (
     perfil_id INT NOT NULL,
     bolao_id INT NOT NULL,
@@ -116,6 +165,12 @@ CREATE TABLE IF NOT EXISTS participantes_bolao (
         REFERENCES boloes(id) ON DELETE CASCADE
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- palpites (N:N "resolvido" entre perfis/boloes e jogos, com atributos)
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE TABLE IF NOT EXISTS palpites (
     id SERIAL,
     perfil_id INT NOT NULL,
@@ -135,6 +190,12 @@ CREATE TABLE IF NOT EXISTS palpites (
         REFERENCES jogos(id) ON DELETE CASCADE
 );
 
+<<<<<<< Updated upstream:backend/database.sql
+=======
+-- ============================================================
+-- Índices de apoio
+-- ============================================================
+>>>>>>> Stashed changes:database.sql
 CREATE INDEX IF NOT EXISTS idx_jogos_numero_jogo ON jogos(numero_jogo);
 CREATE INDEX IF NOT EXISTS idx_jogos_fase ON jogos(fase);
 CREATE INDEX IF NOT EXISTS idx_jogos_data_hora ON jogos(data_hora);

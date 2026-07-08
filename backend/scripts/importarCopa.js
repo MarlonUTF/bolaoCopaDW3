@@ -1,25 +1,15 @@
 // scripts/importarCopa.js
+//
+// Importa dados reais da Copa do Mundo FIFA 2026 (seleções, grupos,
+// calendário de jogos e resultados) a partir da API pública da ESPN.
+// Pode ser executado direto (`node scripts/importarCopa.js`) ou
+// importado por outro script (ex: scripts/runImport.js), já que a
+// função principal é exportada como `importarDadosESPN`.
+
 import pool from '../src/database/pool.js'
 
 const TEAMS_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams'
 const SCOREBOARD_URL = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719'
-
-// ============================================================
-// 0. Ajustes de schema (permitir 3º colocados)
-// ============================================================
-async function ajustarConstraints() {
-  await pool.query(`
-    ALTER TABLE jogos DROP CONSTRAINT IF EXISTS ck_grupo_posicao_casa;
-    ALTER TABLE jogos DROP CONSTRAINT IF EXISTS ck_grupo_posicao_fora;
-
-    ALTER TABLE jogos
-      ADD CONSTRAINT ck_grupo_posicao_casa CHECK (origem_casa_grupo_posicao IN (1,2,3));
-
-    ALTER TABLE jogos
-      ADD CONSTRAINT ck_grupo_posicao_fora CHECK (origem_fora_grupo_posicao IN (1,2,3));
-  `)
-  console.log('✅ Constraints ajustadas para permitir 3º colocados')
-}
 
 // ============================================================
 // 1. Importar grupos (A‑L) e países
@@ -27,7 +17,7 @@ async function ajustarConstraints() {
 async function importarGruposEPaises() {
   console.log('🔄 Criando grupos e importando seleções...')
 
-  const letras = ['A','B','C','D','E','F','G','H','I','J','K','L']
+  const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']
   const grupoParaId = {}
   for (const nome of letras) {
     const { rows } = await pool.query(
@@ -75,6 +65,7 @@ async function importarJogosEResultados() {
   const events = data?.events
   if (!events || !Array.isArray(events)) throw new Error('Nenhum evento encontrado')
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
   // Armazena temporariamente as informações de chaveamento que dependem de números de jogo
   const chaveamentoPendente = []
 
@@ -84,6 +75,16 @@ async function importarJogosEResultados() {
   // ----------------------------------------------------------
   // PASSO 1: Inserir todos os jogos SEM origens de jogo (apenas grupos)
   // ----------------------------------------------------------
+=======
+  const chaveamentoPendente = []
+  let inseridos = 0
+  let resultadosInseridos = 0
+
+  // ------------------------------------------------------------
+  // PASSO 1: Inserir todos os jogos SEM origens de jogo (fase de mata-mata
+  // depende de outros jogos que podem ainda não ter sido inseridos)
+  // ------------------------------------------------------------
+>>>>>>> Stashed changes:scripts/importarCopa.js
   for (const evt of events) {
     const comp = evt.competitions?.[0]
     if (!comp) continue
@@ -91,14 +92,17 @@ async function importarJogosEResultados() {
     const homeCompetitor = comp.competitors?.find(c => c.homeAway === 'home')
     const awayCompetitor = comp.competitors?.find(c => c.homeAway === 'away')
     const encerrado = evt.status?.type?.completed === true ||
-                      evt.status?.type?.name === 'STATUS_FINAL' ||
-                      evt.status?.type?.name === 'STATUS_FULL_TIME'
+      evt.status?.type?.name === 'STATUS_FINAL' ||
+      evt.status?.type?.name === 'STATUS_FULL_TIME'
 
     const fase = extrairFaseDoEvento(evt)
     const nomeEvento = evt.shortName || evt.name || ''
     const info = await interpretarNomeEvento(nomeEvento)
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Times: primeiro tenta o interpretador, depois os competitors da API
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     let paisCasaId = info.paisCasaId
     let paisForaId = info.paisForaId
     if (!paisCasaId && homeCompetitor?.team?.displayName) {
@@ -108,13 +112,19 @@ async function importarJogosEResultados() {
       paisForaId = await buscarPaisIdPorNome(awayCompetitor.team.displayName)
     }
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Origens de grupo (já são IDs)
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     const origCasaGrupoId = info.origCasaGrupoId || null
     const origCasaPos = info.origCasaPos || null
     const origForaGrupoId = info.origForaGrupoId || null
     const origForaPos = info.origForaPos || null
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Origens de jogo (guardamos os números para depois)
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     const origCasaJogoNum = info.origCasaJogoNum || null
     const origForaJogoNum = info.origForaJogoNum || null
 
@@ -122,7 +132,10 @@ async function importarJogosEResultados() {
     const estadio = comp.venue?.fullName || null
     const numeroJogo = parseInt(evt.id)
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Insere SEM as origens de jogo (serão preenchidas no passo 2)
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     await pool.query(
       `INSERT INTO jogos (
         numero_jogo, fase, data_hora, estadio, encerrado,
@@ -158,12 +171,18 @@ async function importarJogosEResultados() {
     )
     inseridos++
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Guarda para depois atualizar as origens de jogo
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     if (origCasaJogoNum || origForaJogoNum) {
       chaveamentoPendente.push({ numeroJogo, origCasaJogoNum, origForaJogoNum })
     }
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
     // Resultados (se houver placar)
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
     if (encerrado && homeCompetitor && awayCompetitor) {
       const golsCasa = extrairPlacar(homeCompetitor)
       const golsFora = extrairPlacar(awayCompetitor)
@@ -184,11 +203,18 @@ async function importarJogosEResultados() {
     }
   }
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
   // ----------------------------------------------------------
   // PASSO 2: Converter números de jogo em IDs reais e atualizar
   // ----------------------------------------------------------
   if (chaveamentoPendente.length > 0) {
     // Monta um mapa numero_jogo -> id
+=======
+  // ------------------------------------------------------------
+  // PASSO 2: Converter números de jogo em IDs reais e atualizar o chaveamento
+  // ------------------------------------------------------------
+  if (chaveamentoPendente.length > 0) {
+>>>>>>> Stashed changes:scripts/importarCopa.js
     const { rows: todosJogos } = await pool.query('SELECT id, numero_jogo FROM jogos')
     const mapaNumParaId = {}
     for (const j of todosJogos) {
@@ -202,10 +228,14 @@ async function importarJogosEResultados() {
 
       if (origCasaId || origForaId) {
         await pool.query(
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
           `UPDATE jogos SET
             origem_casa_jogo_id = $1,
             origem_fora_jogo_id = $2
            WHERE numero_jogo = $3`,
+=======
+          `UPDATE jogos SET origem_casa_jogo_id = $1, origem_fora_jogo_id = $2 WHERE numero_jogo = $3`,
+>>>>>>> Stashed changes:scripts/importarCopa.js
           [origCasaId, origForaId, pend.numeroJogo]
         )
         atualizados++
@@ -219,7 +249,7 @@ async function importarJogosEResultados() {
 }
 
 // ============================================================
-// Extrai a fase do evento usando altGameNote e season.slug
+// Helpers de interpretação dos dados da ESPN
 // ============================================================
 function extrairFaseDoEvento(evt) {
   const altNote = evt.competitions?.[0]?.altGameNote || ''
@@ -234,13 +264,15 @@ function extrairFaseDoEvento(evt) {
   return 'Grupos'
 }
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
 // ============================================================
 // Interpretação do nome do evento (chaveamento)
 // Retorna números de jogo para posterior conversão em IDs
 // ============================================================
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
 async function interpretarNomeEvento(nome) {
   if (!nome) return {}
-
   nome = nome.trim()
 
   const grupoPosRegex = /([123])(?:st|nd|rd|th)?\s*(?:Group\s*)?([A-L])/i
@@ -263,7 +295,10 @@ async function interpretarNomeEvento(nome) {
 
   const [ladoCasa, ladoFora] = partes
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
   // Padrão "Winner X" → retorna números
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
   const origCasaJogoMatch = ladoCasa.match(winnerRegex)
   const origForaJogoMatch = ladoFora.match(winnerRegex)
   if (origCasaJogoMatch || origForaJogoMatch) {
@@ -272,7 +307,6 @@ async function interpretarNomeEvento(nome) {
     return { origCasaJogoNum, origForaJogoNum }
   }
 
-  // Padrão "1A"
   const gpCasa = ladoCasa.match(grupoPosRegex)
   const gpFora = ladoFora.match(grupoPosRegex)
   if (gpCasa && gpFora) {
@@ -288,15 +322,15 @@ async function interpretarNomeEvento(nome) {
     }
   }
 
+<<<<<<< Updated upstream:backend/scripts/importarCopa.js
   // Nomes de times
+=======
+>>>>>>> Stashed changes:scripts/importarCopa.js
   const paisCasaId = await buscarPaisIdPorNome(ladoCasa.trim())
   const paisForaId = await buscarPaisIdPorNome(ladoFora.trim())
   return { paisCasaId, paisForaId }
 }
 
-// ============================================================
-// Helpers
-// ============================================================
 function mapearFase(nome) {
   if (!nome) return null
   const n = nome.toLowerCase()
@@ -334,7 +368,7 @@ const ALIASES = {
   'ivory coast': "Côte d'Ivoire",
   "côte d'ivoire": "Côte d'Ivoire",
   'cape verde': 'Cape Verde Islands',
-  'cape verde islands': 'Cape Verde Islands',
+  'cape verde islands': 'Cape Verde Islands'
 }
 
 async function buscarPaisIdPorNome(nome) {
@@ -358,23 +392,27 @@ async function buscarGrupoIdPorNome(nome) {
 }
 
 // ============================================================
-// Execução principal
+// Execução principal — exportada para poder ser reaproveitada
+// por outros scripts (ex: scripts/runImport.js)
 // ============================================================
-async function main() {
-  try {
-    console.log('🚀 Iniciando importação da Copa do Mundo...\n')
-    await ajustarConstraints()
-    console.log('')
-    await importarGruposEPaises()
-    console.log('')
-    await importarJogosEResultados()
-    console.log('\n🎉 Importação concluída!')
-    await pool.end()
-  } catch (err) {
-    console.error('❌ Erro:', err.message)
-    await pool.end()
-    process.exit(1)
-  }
+export async function importarDadosESPN() {
+  console.log('🚀 Iniciando importação da Copa do Mundo...\n')
+  await importarGruposEPaises()
+  console.log('')
+  await importarJogosEResultados()
+  console.log('\n🎉 Importação concluída!')
 }
 
-main()
+// Só roda sozinho quando o arquivo é executado diretamente
+// (`node scripts/importarCopa.js`), e não quando é importado.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  importarDadosESPN()
+    .then(async () => {
+      await pool.end()
+    })
+    .catch(async (err) => {
+      console.error('❌ Erro:', err.message)
+      await pool.end()
+      process.exit(1)
+    })
+}

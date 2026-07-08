@@ -2,7 +2,20 @@ import pool from '../../database/pool.js'
 
 class ResultadoRepository {
   async listarTodos() {
+<<<<<<< Updated upstream:backend/src/features/resultados/repository.js
     const query = 'SELECT * FROM resultados ORDER BY jogo_id'
+=======
+    const query = `
+      SELECT
+        r.*,
+        j.numero_jogo, j.fase,
+        v.nome AS vencedor_nome
+      FROM resultados r
+      JOIN jogos j ON r.jogo_id = j.id
+      LEFT JOIN paises v ON r.vencedor_id = v.id
+      ORDER BY j.numero_jogo
+    `
+>>>>>>> Stashed changes:src/features/resultados/repository.js
     const result = await pool.query(query)
     return result.rows
   }
@@ -14,7 +27,7 @@ class ResultadoRepository {
       VALUES ($1, $2, $3, $4)
       RETURNING *
     `
-    const result = await pool.query(query, [jogo_id, gols_casa, gols_fora, vencedor_id])
+    const result = await pool.query(query, [jogo_id, gols_casa, gols_fora, vencedor_id ?? null])
     return result.rows[0]
   }
 
@@ -26,7 +39,7 @@ class ResultadoRepository {
       WHERE id = $4
       RETURNING *
     `
-    const result = await pool.query(query, [gols_casa, gols_fora, vencedor_id, id])
+    const result = await pool.query(query, [gols_casa, gols_fora, vencedor_id ?? null, id])
     return result.rows[0]
   }
 
