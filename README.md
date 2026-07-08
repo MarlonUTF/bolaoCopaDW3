@@ -80,7 +80,7 @@ O arquivo `database.sql`, na raiz do projeto, contém todos os `CREATE TABLE` co
 O backend usa **Fastify**, seguindo rigorosamente **Vertical Slice**, **OOP** e **Injeção de Dependência**.
 
 ```
-backend/
+bolaoCopaDW3/
 ├── database.sql
 ├── package.json
 ├── .env
@@ -161,7 +161,7 @@ Toda exceção de negócio é lançada como `AppError` e capturada pelo **Error 
 
 ```bash
 git clone https://github.com/MarlonUTF/bolaoCopaDW3.git
-cd bolao-copa-2026/backend
+cd bolao-copa-2026
 npm install
 ```
 
