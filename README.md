@@ -152,7 +152,7 @@ Toda exceção de negócio é lançada como `AppError` e capturada pelo **Error 
 ### 1. Clone o repositório e instale as dependências
 
 ```bash
-git clone https://github.com/seu-usuario/bolao-copa-2026.git
+git clone https://github.com/MarlonUTF/bolaoCopaDW3.git
 cd bolao-copa-2026/backend
 npm install
 ```
@@ -163,7 +163,7 @@ Crie um arquivo `.env` na pasta `backend/` (use `.env.example` como base):
 
 ```env
 DATABASE_URL="postgresql://usuario:senha@host:5432/nome_do_banco?sslmode=require"
-PORT=3000
+PORT=3333
 ```
 
 ### 3. Execute o script de criação do banco
