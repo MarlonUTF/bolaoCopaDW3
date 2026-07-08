@@ -176,13 +176,46 @@ DATABASE_URL="postgresql://usuario:senha@host:5432/nome_do_banco?sslmode=require
 PORT=3333
 ```
 
-### 3. Execute o script de criação do banco
+### 3. Carregue as variáveis de ambiente
+
+> **Importante:** o projeto utiliza **dotenv** para carregar as variáveis durante a execução da aplicação. Entretanto, o terminal **não lê o arquivo `.env` automaticamente**. Para utilizar o `psql`, carregue as variáveis na sessão atual do terminal:
+
+```bash
+set -a
+source .env
+set +a
+```
+
+### 4. Verifique se a variável foi carregada corretamente
+
+```bash
+echo $DATABASE_URL
+```
+
+Se o comando retornar a URL do banco do **Neon DB**, as variáveis foram carregadas corretamente.
+
+Caso não retorne nada, confira se você está na pasta correta do projeto e se o arquivo `.env` existe:
+
+```bash
+pwd
+ls -la
+```
+
+Você também pode confirmar se o arquivo possui a variável:
+
+```bash
+cat .env
+```
+
+### 5. Crie as tabelas do banco
 
 ```bash
 psql "$DATABASE_URL" -f database.sql
 ```
 
-### 4. (Opcional) Importe os dados reais da Copa
+Se tudo estiver correto, o script criará automaticamente todas as tabelas no banco hospedado no **Neon DB**.
+
+### 6. (Opcional) Importe os dados reais da Copa
 
 ```bash
 npm run importar
@@ -192,13 +225,13 @@ Busca seleções, calendário e placares na API pública da ESPN e preenche `gru
 
 > Como a Copa ainda não aconteceu, jogos com confronto ainda não definido (`TBD vs TBD`) ficam com `pais_casa_id`/`pais_fora_id` nulos até serem definidos pela ESPN.
 
-### 5. Inicie o servidor
+### 7. Inicie o servidor
 
 ```bash
 npm start
 ```
 
-A API estará em `http://localhost:3000` e a documentação Swagger em `http://localhost:3000/docs`.
+A API estará em `http://localhost:3333` e a documentação Swagger em `http://localhost:3333/docs`.
 
 Para desenvolvimento com recarregamento automático:
 
@@ -210,7 +243,7 @@ npm run dev
 
 ## 📡 Documentação da API
 
-Com o servidor rodando, acesse **`http://localhost:3000/docs`**.
+Com o servidor rodando, acesse **`http://localhost:3333/docs`**.
 
 A documentação Swagger cobre, para cada endpoint:
 
