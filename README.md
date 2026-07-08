@@ -30,7 +30,7 @@
 
 ## 📖 Sobre o Projeto
 
-O **Bolão da Copa 2026** é uma API RESTful para criação e gerenciamento de bolões de palpites da Copa do Mundo FIFA 2026. O projeto foi desenvolvido como trabalho prático da disciplina de Arquitetura de Software, aplicando **Vertical Slice**, **Orientação a Objetos**, **Injeção de Dependência** e modelagem relacional em **PostgreSQL**, além de documentação automática com **Swagger/OpenAPI**.
+O **Bolão da Copa 2026** é uma API RESTful para criação e gerenciamento de bolões de palpites da Copa do Mundo FIFA 2026. O projeto foi desenvolvido como trabalho prático da disciplina de Desenvolvimento Web 3, aplicando **Vertical Slice**, **Orientação a Objetos**, **Injeção de Dependência** e modelagem relacional em **PostgreSQL**, além de documentação automática com **Swagger/OpenAPI**.
 
 Um script auxiliar importa dados reais da Copa (seleções, grupos, calendário e resultados) a partir da API pública da ESPN.
 
