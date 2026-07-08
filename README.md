@@ -161,7 +161,7 @@ Toda exceção de negócio é lançada como `AppError` e capturada pelo **Error 
 
 ```bash
 git clone https://github.com/MarlonUTF/bolaoCopaDW3.git
-cd bolao-copa-2026
+cd bolaoCopaDW3
 npm install
 ```
 
