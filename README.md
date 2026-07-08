@@ -1,20 +1,26 @@
 <p align="center">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="72" alt="Node.js" />
-  <img src="https://cdn.simpleicons.org/fastify/000000" width="60" alt="Fastify" />
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.simpleicons.org/fastify/FFFFFF">
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.simpleicons.org/fastify/000000">
+    <img src="https://cdn.simpleicons.org/fastify/000000" width="60" alt="Fastify" />
+  </picture>
+
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="72" alt="PostgreSQL" />
-</p>
 
-<h1 align="center">⚽ Bolão da Copa 2026</h1>
-
-<p align="center">
-  <b>API RESTful para organização de bolões da Copa do Mundo FIFA 2026</b><br>
-  <sub>Grupos, jogos, resultados, chaveamento e palpites</sub>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cdn.simpleicons.org/neon/00E699">
+    <source media="(prefers-color-scheme: light)" srcset="https://cdn.simpleicons.org/neon/00E699">
+    <img src="https://cdn.simpleicons.org/neon/00E699" width="72" alt="Neon DB" />
+  </picture>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-18%2B-339933?style=flat&logo=node.js&logoColor=white" alt="Node.js">
   <img src="https://img.shields.io/badge/Fastify-5.x-000000?style=flat&logo=fastify&logoColor=white" alt="Fastify">
   <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Neon-00E699?style=flat&logo=neon&logoColor=white" alt="Neon DB">
   <img src="https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=flat&logo=swagger&logoColor=black" alt="Swagger">
   <br>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat" alt="License"></a>
@@ -30,9 +36,9 @@ Um script auxiliar importa dados reais da Copa (seleções, grupos, calendário 
 
 ---
 
-## 📚 Índice
+## 📚 Sumário
 
-- [🗄️ Banco de Dados](#-banco-de-dados)
+- [🗄️ Banco de Dados](#️-banco-de-dados)
 - [🏗️ Arquitetura](#-arquitetura)
 - [⚡ Funcionalidades e Regras de Negócio](#-funcionalidades-e-regras-de-negócio)
 - [🚀 Como Executar Localmente](#-como-executar-localmente)
@@ -41,6 +47,8 @@ Um script auxiliar importa dados reais da Copa (seleções, grupos, calendário 
 - [📄 Licença](#-licença)
 
 ---
+
+<a id="banco-de-dados"></a>
 
 ## 🗄️ Banco de Dados
 
@@ -158,6 +166,8 @@ npm install
 ```
 
 ### 2. Configure as variáveis de ambiente
+
+> **Recomendação:** utilize o **Neon DB** para hospedar o PostgreSQL. Este foi o banco utilizado durante o desenvolvimento do projeto, sendo totalmente compatível com a configuração apresentada abaixo.
 
 Crie um arquivo `.env` na pasta `backend/` (use `.env.example` como base):
 
