@@ -169,7 +169,7 @@ npm install
 
 > **Recomendação:** utilize o **Neon DB** para hospedar o PostgreSQL. Este foi o banco utilizado durante o desenvolvimento do projeto, sendo totalmente compatível com a configuração apresentada abaixo.
 
-Crie um arquivo `.env` na raiz do projeto ` (use `.env.example` como base):
+Crie um arquivo `.env` na raiz do projeto (use `.env.example` como base):
 
 ```env
 DATABASE_URL="postgresql://usuario:senha@host:5432/nome_do_banco?sslmode=require"
